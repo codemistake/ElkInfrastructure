@@ -1,0 +1,19 @@
+pipeline {
+  environment {
+    configDir = '/var/infrastructure'
+    dockerStack = 'infrastructure'
+  }
+
+  agent any
+
+  stages {
+    stage('Deploying') {
+      steps {
+        script {
+          sh "cd " + configDir + " && git pull";
+          sh "docker stack deploy -c " + configDir + "/docker-stack.yml " + dockerStack;
+        }
+      }
+    }
+  }
+}
